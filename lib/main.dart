@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:election_2_0/loginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+      home: Loginpage(),
     );
   }
 }

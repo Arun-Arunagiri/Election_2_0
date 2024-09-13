@@ -1,9 +1,9 @@
-import 'package:election_2_0/analytics.dart';
+import 'dart:async';  // For Timer
+import 'dart:convert';  // For JSON decoding
 import 'package:flutter/material.dart';
-import 'package:election_2_0/analytics.dart';
+import 'package:http/http.dart' as http;
 
-
-
+import 'analytics.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({super.key});
@@ -14,35 +14,74 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int totalVotes = 0;
-
   List<int> votes = List<int>.filled(8, 0);
-
-  List<String> names = ['ABC','ABC','ABC','ABC','ABC','ABC','ABC','ABC','ABC'];
-
-  List<String> vicenames= ['XYZ','XYZ','XYZ','XYZ','XYZ','XYZ','XYZ','XYZ','XYZ'];
-
-  List<String> imgs = ["images/c1.jpeg","images/c2.jpeg","images/c3.jpeg","images/c4.jpeg","images/c5.jpeg","images/c6.jpeg","images/c7.jpeg","images/c7.jpeg"];
+  List<String> names = ['ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC'];
+  List<String> vicenames = ['XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ'];
+  List<String> imgs = ["images/c1.jpeg", "images/c2.jpeg", "images/c3.jpeg", "images/c4.jpeg", "images/c5.jpeg", "images/c6.jpeg", "images/c7.jpeg", "images/c7.jpeg"];
+  bool isLoading = true;
+  String errorMessage = '';
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-
+    fetchVotes();
+    // Set up a timer to fetch votes every 10 seconds
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      fetchVotes();
+    });
   }
 
-  Widget tile(String name, int vote, String img,String vname) {
+  @override
+  void dispose() {
+    // Cancel the timer when the widget is disposed
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> fetchVotes() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/votes'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseBody = json.decode(response.body);
+
+        final List<dynamic> votesFromResponse = responseBody['votes'];
+        final int totalVotesFromResponse = responseBody['totalVotes'];
+
+        setState(() {
+          votes = List<int>.from(votesFromResponse.map((x) => int.parse(x.toString())));
+          totalVotes = 400;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          errorMessage = 'Failed to load votes';
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      setState(() {
+        errorMessage = 'Error fetching votes: $error';
+        isLoading = false;
+      });
+    }
+  }
+
+  Widget tile(String name, int vote, String img, String vname) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Container(
         height: 100,
         decoration: BoxDecoration(
-          color:Color(0xffffdec0),
+          color: Color(0xffffdec0),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8,right: 12,top: 8,bottom: 8),
+              padding: const EdgeInsets.only(left: 8, right: 12, top: 8, bottom: 8),
               child: CircleAvatar(radius: 40, backgroundImage: AssetImage(img)),
             ),
             Expanded(
@@ -73,42 +112,40 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     int voted = votes.reduce((a, b) => a + b);
     int remaining = totalVotes - voted;
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black87,
-      //
       body: Column(
-        children:[
+        children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Container(
               height: 60,
-              width: MediaQuery.sizeOf(context).width,
+              width: MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.home,color: Colors.white,size: 40,),
+                  Icon(Icons.home, color: Colors.white, size: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("MOUNT ZION SILVER JUBILEE SCHOOL", style: TextStyle(color:Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
-                      Text("ELECTION RESULT", style: TextStyle(color:Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
+                      Text("MOUNT ZION SILVER JUBILEE SCHOOL", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text("ELECTION RESULT", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Analytics()));}, icon: Icon(Icons.auto_graph_sharp,color: Colors.white,size: 40,))
+                  IconButton(onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Analytics()));
+                  }, icon: Icon(Icons.auto_graph_sharp, color: Colors.white, size: 40))
                 ],
               ),
-              decoration: BoxDecoration(
-                  color: Color(0xff0245a4)
-              ),
+              decoration: BoxDecoration(color: Color(0xff0245a4)),
             ),
           ),
           Expanded(
             child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Column(
                   children: List.generate(8, (index) {
-                    return tile(names[index], votes[index], imgs[index],vicenames[index]);
+                    return tile(names[index], votes[index], imgs[index], vicenames[index]);
                   }),
                 ),
               ],
@@ -118,7 +155,6 @@ class _HomepageState extends State<Homepage> {
             padding: const EdgeInsets.only(top: 10),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              // height: MediaQuery.sizeOf(context).height/7,
               decoration: BoxDecoration(
                 color: Color(0xff0245a4),
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -132,7 +168,7 @@ class _HomepageState extends State<Homepage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Total Votes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.white)),
+                          Text("Total Votes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                           Text("$totalVotes", style: TextStyle(fontSize: 25, color: Colors.white)),
                         ],
                       ),
@@ -142,7 +178,7 @@ class _HomepageState extends State<Homepage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Voted", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.white)),
+                        Text("Voted", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                         Text("$voted", style: TextStyle(fontSize: 25, color: Colors.white)),
                       ],
                     ),
@@ -153,9 +189,8 @@ class _HomepageState extends State<Homepage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Remaining Votes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.white)),
+                          Text("Remaining Votes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                           Text("$remaining", style: TextStyle(fontSize: 25, color: Colors.white)),
-
                         ],
                       ),
                     ),
@@ -166,6 +201,6 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
-    ); ;
+    );
   }
 }
