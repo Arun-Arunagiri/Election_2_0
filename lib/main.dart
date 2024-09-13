@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:election_2_0/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -37,6 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return Homepage();
+    return Placeholder();
   }
 }
