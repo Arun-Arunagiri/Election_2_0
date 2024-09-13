@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:election_2_0/loginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -36,6 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return Placeholder();
+    return Loginpage();
   }
 }
