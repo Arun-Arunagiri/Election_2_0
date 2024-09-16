@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:election_2_0/loginpage.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
+void main() async {  //mian function test mk
 
   runApp(const MyApp());
 }
