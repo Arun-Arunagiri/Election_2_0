@@ -11,7 +11,6 @@ class Homepage extends StatefulWidget {
   @override
   State<Homepage> createState() => _HomepageState();
 }
-
 class _HomepageState extends State<Homepage> {
   int totalVotes = 0;
   List<int> votes = List<int>.filled(8, 0);
@@ -22,6 +21,7 @@ class _HomepageState extends State<Homepage> {
   String errorMessage = '';
   Timer? _timer;
 
+  //for fetching votes
   @override
   void initState() {
     super.initState();
@@ -74,7 +74,7 @@ class _HomepageState extends State<Homepage> {
       child: Container(
         height: 100,
         decoration: BoxDecoration(
-          color: Color(0xffffdec0),
+          color: Color(0xffe0aaff),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Row(
@@ -97,8 +97,16 @@ class _HomepageState extends State<Homepage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("VOTES", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
-                  Text("$vote", style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 35)),
+                  Text("VOTES",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12)),
+                  Text("$vote",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35)),
                 ],
               ),
             ),
@@ -113,7 +121,7 @@ class _HomepageState extends State<Homepage> {
     int voted = votes.reduce((a, b) => a + b);
     int remaining = totalVotes - voted;
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Color(0xff10002b),
       body: Column(
         children: [
           Padding(
@@ -124,7 +132,7 @@ class _HomepageState extends State<Homepage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.home, color: Colors.white, size: 40),
+                  Icon(Icons.home, color: Colors.white, size: 40),                  
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -134,10 +142,12 @@ class _HomepageState extends State<Homepage> {
                   ),
                   IconButton(onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Analytics()));
-                  }, icon: Icon(Icons.auto_graph_sharp, color: Colors.white, size: 40))
+                      },
+                      icon: Icon(Icons.auto_graph_sharp,
+                          color: Colors.white, size: 40)),
                 ],
               ),
-              decoration: BoxDecoration(color: Color(0xff0245a4)),
+              decoration: BoxDecoration(color: Color(0xff240046)),
             ),
           ),
           Expanded(
@@ -151,12 +161,13 @@ class _HomepageState extends State<Homepage> {
               ],
             ),
           ),
+          //bottom details container
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Color(0xff0245a4),
+                color: Color(0xff240046),
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               ),
               child: Row(
