@@ -1,6 +1,7 @@
 # election_2_0
 
 A new Flutter project.
+ for blockchain based voting system.
 
 ## Getting Started
 
