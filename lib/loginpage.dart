@@ -19,6 +19,7 @@ class Loginpage extends StatelessWidget {
       // backgroundColor: Color(0xff10002b),
 
       body: Container(
+        //for gradient background
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: [Color(0xff10002b), Color(0xff7A1CAC)],
@@ -40,14 +41,23 @@ class Loginpage extends StatelessWidget {
                             color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold)),
-                    Text("ELECTION RESULT",
+                    Text("ELECTION PORTAL",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.yellow,
                             fontSize: 15,
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
-                decoration: BoxDecoration(color: Color(0xff240046)),
+                decoration: BoxDecoration(
+                  color: Color(0xff240046),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5), // Shadow color
+                      blurRadius: 10, // Blur radius
+                      offset: Offset(0, 4), // Shadow position (x, y)
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -77,15 +87,15 @@ class Loginpage extends StatelessWidget {
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.white, width: 2.0),
+                                      color: Colors.white, width: 1.5),
                                 ),
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Colors.white, width: 2.0),
+                                      color: Colors.white, width: 1.5),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Colors.white, width: 2.0),
+                                      color: Colors.white, width: 1.5),
                                 ),
                                 labelText: 'User Name',
                                 hintText: 'Enter Your Name',
@@ -103,12 +113,12 @@ class Loginpage extends StatelessWidget {
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.white, width: 2.0),
+                                        color: Colors.white, width: 1.5),
                                   ),
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: Colors.white, width: 2.0),
+                                        color: Colors.white, width: 1.5),
                                   ),
                                   labelText: 'Password',
                                   hintText: 'Enter Password',
