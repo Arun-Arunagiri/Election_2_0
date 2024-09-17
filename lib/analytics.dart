@@ -212,7 +212,7 @@ class _AnalyticsState extends State<Analytics> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Color(0xff10002b),
       body: Column(
         children: [
           Padding(
@@ -220,7 +220,7 @@ class _AnalyticsState extends State<Analytics> {
             child: Container(
               height: 60,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color(0xff0245a4)),
+              decoration: BoxDecoration(color: Color(0xff240046)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

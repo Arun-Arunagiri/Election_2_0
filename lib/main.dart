@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:election_2_0/homepage.dart';
 import 'package:election_2_0/loginpage.dart';
 import 'package:flutter/material.dart';
 
@@ -25,19 +23,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Placeholder();
-  }
-}

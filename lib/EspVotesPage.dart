@@ -146,7 +146,7 @@ class _EspVotesPageState extends State<EspVotesPage> {
             child: Container(
               height: 60,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color(0xff0245a4)),
+              decoration: BoxDecoration(color: Color(0xff240046)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -165,7 +165,10 @@ class _EspVotesPageState extends State<EspVotesPage> {
                       ),
                       Text(
                         "VOTE MACHINE DETAILS",
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
