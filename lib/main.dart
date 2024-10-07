@@ -2,7 +2,7 @@ import 'package:election_2_0/loginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() async {  
-
+  
   runApp(const MyApp());
 }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:election_2_0/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,10 +26,11 @@ class _AnalyticsState extends State<Analytics> {
   // Fetch vote records from the API
   Future<void> fetchVoteRecords() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/voteRecords'));
+      final response =
+          await http.get(Uri.parse('https://dc7c-103-207-1-87.ngrok-free.app/voteRecords'));
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        List<dynamic> records = jsonResponse['voteRecords'];
+        List<dynamic> records = jsonResponse['voteRecords'] ??[];
 
         setState(() {
           voteRecords = List<Map<String, String>>.from(
@@ -212,7 +214,7 @@ class _AnalyticsState extends State<Analytics> {
     }
 
     return Scaffold(
-      backgroundColor: Color(0xff10002b),
+      backgroundColor: myblue,
       body: Column(
         children: [
           Padding(
@@ -220,7 +222,7 @@ class _AnalyticsState extends State<Analytics> {
             child: Container(
               height: 60,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color(0xff240046)),
+              decoration: BoxDecoration(color: barblue),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:election_2_0/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,29 +45,38 @@ class _EspVotesPageState extends State<EspVotesPage> {
   }
 
   // Fetch vote records from the API
-  Future<void> fetchVoteRecords() async {
+Future<void> fetchVoteRecords() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/voteRecords'));
+      // final response =
+      //     await http.get(Uri.parse('http://103.207.1.87:3000/voteRecords'));
+      final response = await http.get(
+          Uri.parse('https://dc7c-103-207-1-87.ngrok-free.app/voteRecords'));
+
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        List<dynamic> records = jsonResponse['voteRecords'];
+        List<dynamic> records = jsonResponse['voteRecords'] ?? [];
 
         setState(() {
           voteRecords = List<Map<String, String>>.from(
-              records.map((record) => {
-                "candidate": record["candidate"].toString(),
-                "timestamp": record["timestamp"].toString(),
-                "esp8266Id": record["esp8266Id"].toString()
-              })
+            records.map((record) => {
+                  "candidate": record["candidate"].toString(),
+                  "timestamp": record["timestamp"].toString(),
+                  "esp8266Id": record["esp8266Id"].toString()
+                }),
           );
         });
       } else {
-        print('Failed to load vote records');
+        _showError('Failed to load vote records: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      _showError('Error fetching data: $e');
     }
-  }
+}
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+}
 
   // Convert the timestamp to DateTime
   DateTime _parseTimestamp(String timestamp) {
@@ -146,7 +156,7 @@ class _EspVotesPageState extends State<EspVotesPage> {
             child: Container(
               height: 60,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color(0xff240046)),
+              decoration: BoxDecoration(color: myblue),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

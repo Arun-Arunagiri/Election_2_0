@@ -16,16 +16,17 @@ class Loginpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xff10002b),
+      backgroundColor: Color(0xff004aad),
 
       body: Container(
-        //for gradient background
+        //for gradient backgroundenable
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xff10002b), Color(0xff7A1CAC)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.55, 1])),
+            // gradient: LinearGradient(
+            //     colors: [Color(0xff072AC8), Color(0xffFCF300)],
+            //     begin: Alignment.topCenter,
+            //     end: Alignment.bottomCenter,
+            //     stops: [0.45, 1])
+            ),
         child: Column(
           children: [
             Padding(
@@ -49,7 +50,7 @@ class Loginpage extends StatelessWidget {
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Color(0xff240046),
+                  color: Color.fromARGB(255, 2, 30, 154),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5), // Shadow color
@@ -127,6 +128,9 @@ class Loginpage extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xfffdf212),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   top: 10.0,
@@ -135,6 +139,7 @@ class Loginpage extends StatelessWidget {
                                   right: 5.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                
                                 children: [
                                   Text(
                                     "LOGIN",

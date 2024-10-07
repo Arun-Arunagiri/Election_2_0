@@ -1,5 +1,6 @@
 import 'dart:async';  // For Timer
 import 'dart:convert';  // For JSON decoding
+import 'package:election_2_0/colors.dart';
 import 'package:election_2_0/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +18,16 @@ class _HomepageState extends State<Homepage> {
   List<int> votes = List<int>.filled(8, 0);
   List<String> names = ['ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC', 'ABC'];
   List<String> vicenames = ['XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ', 'XYZ'];
-  List<String> imgs = ["images/c1.jpeg", "images/c2.jpeg", "images/c3.jpeg", "images/c4.jpeg", "images/c5.jpeg", "images/c6.jpeg", "images/c7.jpeg", "images/c7.jpeg"];
+  List<String> imgs = [
+    "assets/images/c1.jpeg",
+    "assets/images/c2.jpeg",
+    "assets/images/c3.jpeg",
+    "assets/images/c4.jpeg",
+    "assets/images/c5.jpeg",
+    "assets/images/c6.jpeg",
+    "assets/images/c7.jpeg",
+    "assets/images/c7.jpeg"
+  ];
   bool isLoading = true;
   String errorMessage = '';
   Timer? _timer;
@@ -42,7 +52,8 @@ class _HomepageState extends State<Homepage> {
 
   Future<void> fetchVotes() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/votes'));
+      final response =
+          await http.get(Uri.parse('https://dc7c-103-207-1-87.ngrok-free.app/votes'));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
@@ -93,8 +104,9 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 8, right: 12, top: 8, bottom: 8),
-                child:
-                    CircleAvatar(radius: 40, backgroundImage: AssetImage(img)),
+                  child: Image.asset(img)
+                  // CircleAvatar(radius: 40, backgroundImage: AssetImage(img)),
+
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -140,14 +152,15 @@ class _HomepageState extends State<Homepage> {
     int voted = votes.reduce((a, b) => a + b);
     int remaining = totalVotes - voted;
     return Scaffold(
-      // backgroundColor: Color(0xff10002b),
+      backgroundColor: myblue,
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xff10002b), Color(0xff7A1CAC)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.25, 1.0])),
+            // gradient: LinearGradient(
+            //     colors: [Color(0xff072AC8), Color(0xffFCF300)],
+            //     begin: Alignment.topCenter,
+            //     end: Alignment.bottomCenter,
+            //     stops: [0.25, 1.0])
+            ),
         child: Column(
           children: [
             Padding(
@@ -185,7 +198,7 @@ class _HomepageState extends State<Homepage> {
                             color: Colors.white, size: 40)),
                   ],
                 ),
-                decoration: BoxDecoration(color: Color(0xff240046)),
+                decoration: BoxDecoration(color: barblue),
               ),
             ),
             Expanded(
@@ -206,7 +219,7 @@ class _HomepageState extends State<Homepage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Color(0xff240046),
+                  color: barblue,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
